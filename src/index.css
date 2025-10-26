@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global keyframes used by App */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  25% { transform: translateY(-15px) scale(1.03); }
+  50% { transform: translateY(10px) scale(0.97); }
+  75% { transform: translateY(-10px) scale(1.02); }
+}
+@keyframes centerMove {
+  0%, 100% { transform: translateY(0px); }
+  25% { transform: translateY(-10px); }
+  50% { transform: translateY(10px); }
+  75% { transform: translateY(-5px); }
+}
+/* Utility class used in App */
+.animate-center-move { animation: centerMove 8s ease-in-out infinite; }

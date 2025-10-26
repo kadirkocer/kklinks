@@ -66,13 +66,13 @@ export default function ProfileLinks() {
 
   const links = useMemo(
     () => [
-      { title: 'Instagram', url: 'https://instagram.com/kullaniciadi', icon: ICONS.Instagram, angle: 0, duration: 15 },
-      { title: 'Twitter', url: 'https://twitter.com/kullaniciadi', icon: ICONS.Twitter, angle: 51, duration: 18 },
-      { title: 'LinkedIn', url: 'https://linkedin.com/in/kullaniciadi', icon: ICONS.Linkedin, angle: 102, duration: 20 },
-      { title: 'GitHub', url: 'https://github.com/kullaniciadi', icon: ICONS.Github, angle: 153, duration: 16 },
-      { title: 'Email', url: 'mailto:your.email@example.com', icon: ICONS.Mail, angle: 204, duration: 19 },
-      { title: 'Website', url: 'https://yourwebsite.com', icon: ICONS.Globe, angle: 255, duration: 17 },
-      { title: 'YouTube', url: 'https://youtube.com/@kullaniciadi', icon: ICONS.Youtube, angle: 306, duration: 21 },
+      { title: 'Instagram', url: 'https://www.instagram.com/kkadirkkocer/', icon: ICONS.Instagram, angle: 0, duration: 15 },
+      { title: 'YouTube', url: 'https://www.youtube.com/@kkadirkocer', icon: ICONS.Youtube, angle: 51, duration: 21 },
+      { title: 'LinkedIn', url: 'https://www.linkedin.com/in/kkadirkocer/', icon: ICONS.Linkedin, angle: 102, duration: 20 },
+      { title: 'Website', url: 'https://kadirkocer.com', icon: ICONS.Globe, angle: 153, duration: 17 },
+      { title: 'X (Twitter)', url: 'https://x.com/kkadirkocer', icon: ICONS.Twitter, angle: 204, duration: 18 },
+      { title: 'GitHub', url: 'https://github.com/kadirkocer', icon: ICONS.Github, angle: 255, duration: 16 },
+      { title: 'Email', url: 'mailto:kk@kadirkocer.com', icon: ICONS.Mail, angle: 306, duration: 19 },
     ],
     []
   );

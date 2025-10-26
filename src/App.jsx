@@ -50,7 +50,7 @@ export default function ProfileLinks() {
   const [radius, setRadius] = useState(200);
   const [centerHovered, setCenterHovered] = useState(false);
   const centerSize = 224;
-  const avatarVideo = '/video/kk.MOV';
+  const avatarVideo = `${import.meta.env.BASE_URL}video/kk.MOV`;
 
   useEffect(() => {
     const onResize = () => {

@@ -48,15 +48,49 @@ export default function ProfileLinks() {
   const [mounted, setMounted] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [radius, setRadius] = useState(200);
+  const [iconSize, setIconSize] = useState(80);
+  const [centerSize, setCenterSize] = useState(224);
+  const [iconInnerSize, setIconInnerSize] = useState(40);
   const [centerHovered, setCenterHovered] = useState(false);
-  const centerSize = 224;
   const avatarVideo = `${import.meta.env.BASE_URL}video/kk.MOV`;
 
   useEffect(() => {
     const onResize = () => {
       const minSide = Math.min(window.innerWidth, window.innerHeight);
-      const r = Math.max(150, Math.min(260, Math.floor(minSide * 0.28)));
+
+      // Calculate all sizes based on screen size
+      let r, iSize, cSize, iiSize;
+
+      if (minSide < 400) {
+        // Very small screens (mobile portrait)
+        r = Math.floor(minSide * 0.25);
+        iSize = Math.max(44, Math.floor(minSide * 0.12)); // Min 44px for touch
+        cSize = Math.floor(minSide * 0.35);
+        iiSize = Math.floor(iSize * 0.45);
+      } else if (minSide < 600) {
+        // Small screens (mobile landscape, small tablets)
+        r = Math.floor(minSide * 0.28);
+        iSize = Math.floor(minSide * 0.13);
+        cSize = Math.floor(minSide * 0.38);
+        iiSize = Math.floor(iSize * 0.5);
+      } else if (minSide < 900) {
+        // Medium screens (tablets)
+        r = Math.floor(minSide * 0.30);
+        iSize = Math.floor(minSide * 0.11);
+        cSize = Math.floor(minSide * 0.32);
+        iiSize = Math.floor(iSize * 0.5);
+      } else {
+        // Large screens (desktop)
+        r = Math.min(260, Math.floor(minSide * 0.28));
+        iSize = 80;
+        cSize = 224;
+        iiSize = 40;
+      }
+
       setRadius(r);
+      setIconSize(iSize);
+      setCenterSize(cSize);
+      setIconInnerSize(iiSize);
     };
     onResize();
     window.addEventListener('resize', onResize);
@@ -83,12 +117,19 @@ export default function ProfileLinks() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-8 overflow-hidden relative">
-      <div className="relative z-10 flex items-center justify-center" style={{ width: radius * 2 + centerSize, height: radius * 2 + centerSize }}>
+    <div className="min-h-screen bg-black flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden relative">
+      <div className="relative z-10 flex items-center justify-center" style={{
+        width: Math.min(radius * 2 + centerSize + 80, window.innerWidth - 32),
+        height: Math.min(radius * 2 + centerSize + 80, window.innerHeight - 32)
+      }}>
         <div
-          className={`absolute w-56 h-56 rounded-full overflow-hidden animate-center-move transition-all duration-500 ${
+          className={`absolute rounded-full overflow-hidden animate-center-move transition-all duration-500 ${
             centerHovered ? 'scale-110 shadow-[0_0_80px_30px_rgba(255,255,255,0.8)]' : 'scale-100 shadow-[0_0_40px_10px_rgba(255,255,255,0.4)]'
           }`}
+          style={{
+            width: centerSize,
+            height: centerSize,
+          }}
           onMouseEnter={() => setCenterHovered(true)}
           onMouseLeave={() => setCenterHovered(false)}
         >
@@ -111,8 +152,10 @@ export default function ProfileLinks() {
                 left: '50%',
                 top: '50%',
                 transform: `translate(calc(-50% + ${pos.x}px), calc(-50% + ${pos.y}px))`,
-                width: 80,
-                height: 80,
+                width: iconSize,
+                height: iconSize,
+                minWidth: '44px',
+                minHeight: '44px',
                 opacity: mounted ? 1 : 0,
                 transition: `opacity 0.6s ease ${i * 0.1}s`,
               }}
@@ -126,15 +169,31 @@ export default function ProfileLinks() {
                 style={{ animation: mounted ? `float ${link.duration}s ease-in-out infinite` : 'none', animationDelay: `${i * 0.2}s` }}
               >
                 <div className={`transition-all duration-500 ${isHovered ? 'scale-110 brightness-200' : 'scale-100 brightness-100'}`}>
-                  <Icon className="w-10 h-10 text-white transition-all duration-300 relative z-10" />
+                  <Icon
+                    style={{ width: iconInnerSize, height: iconInnerSize }}
+                    className="text-white transition-all duration-300 relative z-10"
+                  />
                 </div>
               </div>
               <div
-                className={`absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white text-black px-3 py-1 rounded-lg text-sm font-medium shadow-md transition-all duration-200 border border-white ${
+                className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap bg-white text-black px-3 py-1.5 rounded-lg font-medium shadow-lg transition-all duration-200 border border-white ${
                   isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
                 }`}
+                style={{
+                  fontSize: Math.max(12, Math.floor(iconSize * 0.18)),
+                  bottom: pos.y < 0 ? 'auto' : `${-iconSize * 0.35}px`,
+                  top: pos.y < 0 ? `${-iconSize * 0.35}px` : 'auto',
+                }}
               >
                 {link.title}
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-white rotate-45 border-white"
+                  style={{
+                    top: pos.y < 0 ? 'auto' : '-4px',
+                    bottom: pos.y < 0 ? '-4px' : 'auto',
+                    borderWidth: pos.y < 0 ? '0 1px 1px 0' : '1px 0 0 1px',
+                  }}
+                />
               </div>
             </a>
           );

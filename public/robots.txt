@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kadirkocer.github.io/kklinks/sitemap.xml

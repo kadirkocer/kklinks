@@ -46,6 +46,60 @@ const ICONS = {
   ),
 };
 
+// PGP Public Key
+const PGP_PUBLIC_KEY = `-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+FNj6dvg=
+=hMnB
+-----END PGP PUBLIC KEY BLOCK-----`;
+
 // Social links configuration - equally distributed around circle
 const SOCIAL_LINKS = [
   { title: 'Instagram', url: 'https://www.instagram.com/kkadirkkocer/', icon: ICONS.Instagram, color: '#E4405F' },
@@ -61,6 +115,7 @@ export default function ProfileLinks() {
   const [mounted, setMounted] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [centerHovered, setCenterHovered] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [dimensions, setDimensions] = useState({
     radius: 140,
     iconSize: 56,
@@ -135,6 +190,17 @@ export default function ProfileLinks() {
     };
   };
 
+  // Copy PGP key to clipboard
+  const copyPGP = async () => {
+    try {
+      await navigator.clipboard.writeText(PGP_PUBLIC_KEY);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy PGP key:', err);
+    }
+  };
+
   const { radius, iconSize, iconInnerSize, centerSize } = dimensions;
   const containerSize = (radius + iconSize) * 2 + 40;
 
@@ -183,6 +249,7 @@ export default function ProfileLinks() {
             }}
             onMouseEnter={() => setCenterHovered(true)}
             onMouseLeave={() => setCenterHovered(false)}
+            onClick={copyPGP}
           >
             <video
               src={avatarVideo}

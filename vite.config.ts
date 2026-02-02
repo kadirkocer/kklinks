@@ -4,7 +4,7 @@ import path from 'path'
 
 export default defineConfig({
     plugins: [react()],
-    base: '/kklinks/', // GitHub Pages deployment path
+    base: process.env.VITE_BASE_PATH || '/kklinks/', // Netlify: / | GitHub Pages: /kklinks/
 
     resolve: {
         alias: {

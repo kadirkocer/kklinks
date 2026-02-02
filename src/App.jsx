@@ -122,6 +122,7 @@ export default function ProfileLinks() {
     iconInnerSize: 40,
     centerSize: 160,
   });
+  const videoRef = React.useRef(null);
 
   const avatarVideo = `${import.meta.env.BASE_URL}video/kk.mp4`;
 
@@ -134,23 +135,23 @@ export default function ProfileLinks() {
     let radius, iconSize, iconInnerSize, centerSize;
 
     if (minDimension < 400) {
-      // Mobile small
-      centerSize = minDimension * 0.28;
-      radius = minDimension * 0.25;
-      iconSize = minDimension * 0.08;
-      iconInnerSize = iconSize * 0.70;
+      // Mobile small - Video daha büyük, ikonlar daha küçük
+      centerSize = minDimension * 0.38;  // 0.28 → 0.38 (daha büyük video)
+      radius = minDimension * 0.32;      // 0.25 → 0.32 (daha geniş orbit)
+      iconSize = minDimension * 0.12;    // 0.08 → 0.12
+      iconInnerSize = iconSize * 0.60;   // 0.70 → 0.60 (ikon içi daha küçük)
     } else if (minDimension < 600) {
       // Mobile large
-      centerSize = minDimension * 0.30;
-      radius = minDimension * 0.26;
-      iconSize = minDimension * 0.09;
-      iconInnerSize = iconSize * 0.72;
+      centerSize = minDimension * 0.35;  // 0.30 → 0.35
+      radius = minDimension * 0.30;      // 0.26 → 0.30
+      iconSize = minDimension * 0.11;    // 0.09 → 0.11
+      iconInnerSize = iconSize * 0.62;   // 0.72 → 0.62
     } else if (minDimension < 900) {
       // Tablet
-      centerSize = minDimension * 0.26;
-      radius = minDimension * 0.24;
-      iconSize = minDimension * 0.08;
-      iconInnerSize = iconSize * 0.75;
+      centerSize = minDimension * 0.28;  // 0.26 → 0.28
+      radius = minDimension * 0.26;      // 0.24 → 0.26
+      iconSize = minDimension * 0.10;    // 0.08 → 0.10
+      iconInnerSize = iconSize * 0.65;   // 0.75 → 0.65
     } else {
       // Desktop
       centerSize = Math.min(200, minDimension * 0.20);
@@ -159,9 +160,9 @@ export default function ProfileLinks() {
       iconInnerSize = iconSize * 0.72;
     }
 
-    // Ensure minimum touch target size
-    iconSize = Math.max(iconSize, 48);
-    iconInnerSize = Math.max(iconSize * 0.70, 36);
+    // Minimum touch target - mobilde daha küçük tolerans
+    iconSize = Math.max(iconSize, 42);  // 48 → 42
+    iconInnerSize = Math.max(iconSize * 0.60, 28);  // 0.70, 36 → 0.60, 28
 
     setDimensions({ radius, iconSize, iconInnerSize, centerSize });
   }, []);
@@ -178,6 +179,20 @@ export default function ProfileLinks() {
       clearTimeout(timer);
     };
   }, [calculateDimensions]);
+
+  // Force video autoplay on mobile
+  useEffect(() => {
+    if (videoRef.current) {
+      const playVideo = async () => {
+        try {
+          await videoRef.current.play();
+        } catch (err) {
+          console.log('Autoplay prevented:', err);
+        }
+      };
+      playVideo();
+    }
+  }, []);
 
   // Calculate position on circle - equal distribution
   const getPosition = (index, total) => {
@@ -252,11 +267,14 @@ export default function ProfileLinks() {
             onClick={copyPGP}
           >
             <video
+              ref={videoRef}
               src={avatarVideo}
-              autoPlay
-              loop
               muted
+              loop
+              autoPlay
               playsInline
+              webkit-playsinline="true"
+              preload="auto"
               className="w-full h-full object-cover"
             />
 

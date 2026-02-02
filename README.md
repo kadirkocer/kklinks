@@ -1,17 +1,76 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 # kklinks
+
+A modern, animated social links page for Kadir Köçer. Features a dynamic circular layout with floating social media icons orbiting around a video avatar.
+
+🔗 **Live Demo**: [kadirkocer.github.io/kklinks](https://kadirkocer.github.io/kklinks/)
+
+## ✨ Features
+
+- **Animated Layout**: Social icons orbit smoothly with individual floating animations
+- **Responsive Design**: Adapts beautifully from mobile to desktop
+- **Interactive Effects**: Glow effects and scale animations on hover
+- **Video Avatar**: Central animated video profile with interactive hover state
+- **PWA Ready**: Includes manifest and all necessary icons for installation
+
+## 🛠️ Tech Stack
+
+- **React 18** - UI framework
+- **Vite** - Build tool with HMR
+- **Tailwind CSS** - Styling
+- **GitHub Pages** - Deployment
+
+## 📦 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/kadirkocer/kklinks.git
+
+# Navigate to the project
+cd kklinks
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+## 🚀 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run deploy` | Deploy to GitHub Pages |
+
+## 📁 Project Structure
+
+```
+kklinks/
+├── public/
+│   ├── video/           # Video assets
+│   ├── favicon.svg      # SVG favicon
+│   ├── favicon-*.png    # PNG favicons
+│   ├── apple-touch-icon.png
+│   ├── og-image.jpg     # Social sharing image
+│   └── manifest.json    # PWA manifest
+├── src/
+│   ├── App.jsx          # Main application component
+│   ├── main.jsx         # Entry point
+│   └── index.css        # Global styles
+└── index.html           # HTML template with SEO meta tags
+```
+
+## 🔗 Social Links
+
+- [Instagram](https://www.instagram.com/kkadirkkocer/)
+- [YouTube](https://www.youtube.com/@kkadirkocer)
+- [LinkedIn](https://www.linkedin.com/in/kkadirkocer/)
+- [Twitter/X](https://x.com/kkadirkocer)
+- [GitHub](https://github.com/kadirkocer)
+- [Website](https://kadirkocer.com)
+
+## 📄 License
+
+MIT © [Kadir Köçer](https://kadirkocer.com)

@@ -1,201 +1,291 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
+// Premium SVG Icons with consistent styling
 const ICONS = {
   Instagram: (props) => (
-    <svg viewBox="0 0 24 24" fill="black" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <circle cx="17.5" cy="6.5" r="1" />
+      <circle cx="17.5" cy="6.5" r="1.25" fill="currentColor" stroke="none" />
     </svg>
   ),
   Twitter: (props) => (
-    <svg viewBox="0 0 24 24" fill="black" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
-      <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 12 8v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83" />
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
     </svg>
   ),
   Linkedin: (props) => (
-    <svg viewBox="0 0 24 24" fill="black" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
       <rect x="2" y="9" width="4" height="12" />
       <circle cx="4" cy="4" r="2" />
     </svg>
   ),
   Github: (props) => (
-    <svg viewBox="0 0 24 24" fill="black" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
-      <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.61-3.37-1.34-3.37-1.34a2.65 2.65 0 0 0-1.11-1.47c-.91-.63.07-.62.07-.62a2.1 2.1 0 0 1 1.54 1.04a2.14 2.14 0 0 0 2.92.83a2.14 2.14 0 0 1 .64-1.34c-2.22-.25-4.56-1.11-4.56-4.93a3.86 3.86 0 0 1 1.03-2.67a3.57 3.57 0 0 1 .1-2.63s.84-.27 2.75 1.02a9.41 9.41 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02a3.57 3.57 0 0 1 .1 2.63a3.86 3.86 0 0 1 1.03 2.67c0 3.83-2.34 4.67-4.57 4.92a2.39 2.39 0 0 1 .68 1.86v2.76" />
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
     </svg>
   ),
   Mail: (props) => (
-    <svg viewBox="0 0 24 24" fill="black" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
-      <rect x="3" y="5" width="18" height="14" rx="2" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="2" y="4" width="20" height="16" rx="2" />
       <path d="M22 6l-10 7L2 6" />
     </svg>
   ),
   Globe: (props) => (
-    <svg viewBox="0 0 24 24" fill="black" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <circle cx="12" cy="12" r="10" />
-      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10a15.3 15.3 0 0 1-4 10a15.3 15.3 0 0 1-4-10a15.3 15.3 0 0 1 4-10z" />
+      <path d="M2 12h20" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
     </svg>
   ),
   Youtube: (props) => (
-    <svg viewBox="0 0 24 24" fill="black" stroke="white" strokeWidth="1.5" aria-hidden="true" {...props}>
-      <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8a3 3 0 0 0 2.1 2.1C4.4 20.5 12 20.5 12 20.5s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" />
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
     </svg>
   ),
 };
 
+// Social links configuration - equally distributed around circle
+const SOCIAL_LINKS = [
+  { title: 'Instagram', url: 'https://www.instagram.com/kkadirkkocer/', icon: ICONS.Instagram, color: '#E4405F' },
+  { title: 'YouTube', url: 'https://www.youtube.com/@kkadirkocer', icon: ICONS.Youtube, color: '#FF0000' },
+  { title: 'LinkedIn', url: 'https://www.linkedin.com/in/kkadirkocer/', icon: ICONS.Linkedin, color: '#0A66C2' },
+  { title: 'Website', url: 'https://kadirkocer.com', icon: ICONS.Globe, color: '#00D4FF' },
+  { title: 'X', url: 'https://x.com/kkadirkocer', icon: ICONS.Twitter, color: '#FFFFFF' },
+  { title: 'GitHub', url: 'https://github.com/kadirkocer', icon: ICONS.Github, color: '#FFFFFF' },
+  { title: 'Email', url: 'mailto:kk@kadirkocer.com', icon: ICONS.Mail, color: '#34D399' },
+];
+
 export default function ProfileLinks() {
   const [mounted, setMounted] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [radius, setRadius] = useState(200);
-  const [iconSize, setIconSize] = useState(80);
-  const [centerSize, setCenterSize] = useState(224);
-  const [iconInnerSize, setIconInnerSize] = useState(40);
   const [centerHovered, setCenterHovered] = useState(false);
-  const avatarVideo = `${import.meta.env.BASE_URL}video/kk.MOV`;
+  const [dimensions, setDimensions] = useState({
+    radius: 140,
+    iconSize: 56,
+    iconInnerSize: 40,
+    centerSize: 160,
+  });
 
-  useEffect(() => {
-    const onResize = () => {
-      const minSide = Math.min(window.innerWidth, window.innerHeight);
+  const avatarVideo = `${import.meta.env.BASE_URL}video/kk.mp4`;
 
-      // Calculate all sizes based on screen size
-      let r, iSize, cSize, iiSize;
+  // Calculate responsive dimensions
+  const calculateDimensions = useCallback(() => {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const minDimension = Math.min(vw, vh);
 
-      if (minSide < 400) {
-        // Very small screens (mobile portrait)
-        r = Math.floor(minSide * 0.25);
-        iSize = Math.max(44, Math.floor(minSide * 0.12)); // Min 44px for touch
-        cSize = Math.floor(minSide * 0.35);
-        iiSize = Math.floor(iSize * 0.45);
-      } else if (minSide < 600) {
-        // Small screens (mobile landscape, small tablets)
-        r = Math.floor(minSide * 0.28);
-        iSize = Math.floor(minSide * 0.13);
-        cSize = Math.floor(minSide * 0.38);
-        iiSize = Math.floor(iSize * 0.5);
-      } else if (minSide < 900) {
-        // Medium screens (tablets)
-        r = Math.floor(minSide * 0.30);
-        iSize = Math.floor(minSide * 0.11);
-        cSize = Math.floor(minSide * 0.32);
-        iiSize = Math.floor(iSize * 0.5);
-      } else {
-        // Large screens (desktop)
-        r = Math.min(260, Math.floor(minSide * 0.28));
-        iSize = 80;
-        cSize = 224;
-        iiSize = 40;
-      }
+    let radius, iconSize, iconInnerSize, centerSize;
 
-      setRadius(r);
-      setIconSize(iSize);
-      setCenterSize(cSize);
-      setIconInnerSize(iiSize);
-    };
-    onResize();
-    window.addEventListener('resize', onResize);
-    setMounted(true);
-    return () => window.removeEventListener('resize', onResize);
+    if (minDimension < 400) {
+      // Mobile small
+      centerSize = minDimension * 0.28;
+      radius = minDimension * 0.25;
+      iconSize = minDimension * 0.08;
+      iconInnerSize = iconSize * 0.70;
+    } else if (minDimension < 600) {
+      // Mobile large
+      centerSize = minDimension * 0.30;
+      radius = minDimension * 0.26;
+      iconSize = minDimension * 0.09;
+      iconInnerSize = iconSize * 0.72;
+    } else if (minDimension < 900) {
+      // Tablet
+      centerSize = minDimension * 0.26;
+      radius = minDimension * 0.24;
+      iconSize = minDimension * 0.08;
+      iconInnerSize = iconSize * 0.75;
+    } else {
+      // Desktop
+      centerSize = Math.min(200, minDimension * 0.20);
+      radius = Math.min(140, minDimension * 0.18);
+      iconSize = Math.min(56, minDimension * 0.06);
+      iconInnerSize = iconSize * 0.72;
+    }
+
+    // Ensure minimum touch target size
+    iconSize = Math.max(iconSize, 48);
+    iconInnerSize = Math.max(iconSize * 0.70, 36);
+
+    setDimensions({ radius, iconSize, iconInnerSize, centerSize });
   }, []);
 
-  const links = useMemo(
-    () => [
-      { title: 'Instagram', url: 'https://www.instagram.com/kkadirkkocer/', icon: ICONS.Instagram, angle: 0, duration: 15 },
-      { title: 'YouTube', url: 'https://www.youtube.com/@kkadirkocer', icon: ICONS.Youtube, angle: 51, duration: 21 },
-      { title: 'LinkedIn', url: 'https://www.linkedin.com/in/kkadirkocer/', icon: ICONS.Linkedin, angle: 102, duration: 20 },
-      { title: 'Website', url: 'https://kadirkocer.com', icon: ICONS.Globe, angle: 153, duration: 17 },
-      { title: 'X (Twitter)', url: 'https://x.com/kkadirkocer', icon: ICONS.Twitter, angle: 204, duration: 18 },
-      { title: 'GitHub', url: 'https://github.com/kadirkocer', icon: ICONS.Github, angle: 255, duration: 16 },
-      { title: 'Email', url: 'mailto:kk@kadirkocer.com', icon: ICONS.Mail, angle: 306, duration: 19 },
-    ],
-    []
-  );
+  useEffect(() => {
+    calculateDimensions();
+    window.addEventListener('resize', calculateDimensions);
 
-  const getPosition = (angle, rad) => {
-    const radian = (angle * Math.PI) / 180;
-    return { x: Math.cos(radian) * rad, y: Math.sin(radian) * rad };
+    // Trigger mount animation
+    const timer = setTimeout(() => setMounted(true), 100);
+
+    return () => {
+      window.removeEventListener('resize', calculateDimensions);
+      clearTimeout(timer);
+    };
+  }, [calculateDimensions]);
+
+  // Calculate position on circle - equal distribution
+  const getPosition = (index, total) => {
+    // Start from top (-90 degrees) and distribute evenly
+    const angleStep = (2 * Math.PI) / total;
+    const angle = -Math.PI / 2 + index * angleStep;
+    return {
+      x: Math.cos(angle) * dimensions.radius,
+      y: Math.sin(angle) * dimensions.radius,
+    };
   };
 
+  const { radius, iconSize, iconInnerSize, centerSize } = dimensions;
+  const containerSize = (radius + iconSize) * 2 + 40;
+
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden relative">
-      <div className="relative z-10 flex items-center justify-center" style={{
-        width: Math.min(radius * 2 + centerSize + 80, window.innerWidth - 32),
-        height: Math.min(radius * 2 + centerSize + 80, window.innerHeight - 32)
-      }}>
+    <div
+      className="w-full h-full min-h-screen flex items-center justify-center overflow-hidden"
+      style={{
+        background: 'radial-gradient(ellipse at center, #0a0a0a 0%, #000000 70%)',
+      }}
+    >
+      {/* Ambient background glow */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          width: containerSize * 1.5,
+          height: containerSize * 1.5,
+          background: 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)',
+          animation: 'ambient-glow 8s ease-in-out infinite',
+        }}
+      />
+
+      {/* Main container */}
+      <div
+        className="relative flex items-center justify-center"
+        style={{
+          width: containerSize,
+          height: containerSize,
+          maxWidth: '100vw',
+          maxHeight: '100vh',
+        }}
+      >
+        {/* Center Avatar */}
         <div
-          className={`absolute rounded-full overflow-hidden animate-center-move transition-all duration-500 ${
-            centerHovered ? 'scale-110 shadow-[0_0_80px_30px_rgba(255,255,255,0.8)]' : 'scale-100 shadow-[0_0_40px_10px_rgba(255,255,255,0.4)]'
-          }`}
+          className="absolute z-10"
           style={{
             width: centerSize,
             height: centerSize,
+            animation: mounted ? 'breathe 6s ease-in-out infinite' : 'none',
           }}
-          onMouseEnter={() => setCenterHovered(true)}
-          onMouseLeave={() => setCenterHovered(false)}
         >
-          <video src={avatarVideo} autoPlay loop muted playsInline className="w-full h-full object-cover" />
+          <div
+            className="rounded-full overflow-hidden cursor-pointer w-full h-full"
+            style={{
+              transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              transform: centerHovered ? 'scale(1.08)' : 'scale(1)',
+            }}
+            onMouseEnter={() => setCenterHovered(true)}
+            onMouseLeave={() => setCenterHovered(false)}
+          >
+            <video
+              src={avatarVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            />
+
+            {/* Gradient overlay on hover */}
+            <div
+              className="absolute inset-0 transition-opacity duration-500"
+              style={{
+                background: 'linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%)',
+                opacity: centerHovered ? 1 : 0,
+              }}
+            />
+          </div>
         </div>
 
-        {links.map((link, i) => {
-          const pos = getPosition(link.angle, radius);
+        {/* Social Links - Orbital Icons */}
+        {SOCIAL_LINKS.map((link, index) => {
+          const pos = getPosition(index, SOCIAL_LINKS.length);
           const Icon = link.icon;
-          const isHovered = hoveredIndex === i;
+          const isHovered = hoveredIndex === index;
+          const animationDelay = index * 0.8;
 
           return (
-            <a
-              key={i}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute group"
+            <div
+              key={link.title}
+              className="absolute"
               style={{
-                left: '50%',
-                top: '50%',
-                transform: `translate(calc(-50% + ${pos.x}px), calc(-50% + ${pos.y}px))`,
                 width: iconSize,
                 height: iconSize,
-                minWidth: '44px',
-                minHeight: '44px',
+                left: '50%',
+                top: '50%',
+                marginLeft: -iconSize / 2,
+                marginTop: -iconSize / 2,
+                transform: `translate(${pos.x}px, ${pos.y}px)`,
                 opacity: mounted ? 1 : 0,
-                transition: `opacity 0.6s ease ${i * 0.1}s`,
+                animation: mounted
+                  ? `fade-in-up 0.6s ease-out ${index * 0.1}s backwards`
+                  : 'none',
               }}
-              onMouseEnter={() => setHoveredIndex(i)}
-              onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div
-                className={`w-full h-full rounded-full bg-black flex items-center justify-center border-2 border-white transition-all duration-500 relative overflow-hidden ${
-                  isHovered ? 'scale-125 shadow-[0_0_80px_30px_rgba(255,255,255,0.8)]' : 'scale-100 shadow-[0_0_40px_10px_rgba(255,255,255,0.4)]'
-                }`}
-                style={{ animation: mounted ? `float ${link.duration}s ease-in-out infinite` : 'none', animationDelay: `${i * 0.2}s` }}
-              >
-                <div className={`transition-all duration-500 ${isHovered ? 'scale-110 brightness-200' : 'scale-100 brightness-100'}`}>
-                  <Icon
-                    style={{ width: iconInnerSize, height: iconInnerSize }}
-                    className="text-white transition-all duration-300 relative z-10"
-                  />
-                </div>
-              </div>
-              <div
-                className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap bg-white text-black px-3 py-1.5 rounded-lg font-medium shadow-lg transition-all duration-200 border border-white ${
-                  isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
-                }`}
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center group w-full h-full"
                 style={{
-                  fontSize: Math.max(12, Math.floor(iconSize * 0.18)),
-                  bottom: pos.y < 0 ? 'auto' : `${-iconSize * 0.35}px`,
-                  top: pos.y < 0 ? `${-iconSize * 0.35}px` : 'auto',
+                  animation: mounted
+                    ? `orbital-float ${12 + index * 2}s ease-in-out ${animationDelay}s infinite`
+                    : 'none',
+                }}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+              {/* Icon */}
+              <Icon
+                style={{
+                  width: iconInnerSize,
+                  height: iconInnerSize,
+                  color: isHovered ? link.color : 'rgba(255,255,255,0.85)',
+                  transition: 'all 0.4s ease-out',
+                  transform: isHovered ? 'scale(1.15)' : 'scale(1)',
+                  filter: isHovered ? `drop-shadow(0 0 8px ${link.color}60)` : 'none',
+                }}
+              />
+
+              {/* Tooltip */}
+              <div
+                className="absolute whitespace-nowrap px-3 py-1.5 rounded-lg font-medium text-sm pointer-events-none transition-all duration-300 ease-out"
+                style={{
+                  background: 'rgba(255,255,255,0.95)',
+                  color: '#000',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                  opacity: isHovered ? 1 : 0,
+                  transform: isHovered ? 'translateY(0)' : 'translateY(8px)',
+                  ...(pos.y < 0
+                    ? { top: `calc(100% + 12px)` }
+                    : { bottom: `calc(100% + 12px)` }
+                  ),
+                  left: '50%',
+                  marginLeft: '-50%',
+                  transformOrigin: pos.y < 0 ? 'top center' : 'bottom center',
                 }}
               >
                 {link.title}
+                {/* Tooltip arrow */}
                 <div
-                  className="absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-white rotate-45 border-white"
+                  className="absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-white rotate-45"
                   style={{
-                    top: pos.y < 0 ? 'auto' : '-4px',
-                    bottom: pos.y < 0 ? '-4px' : 'auto',
-                    borderWidth: pos.y < 0 ? '0 1px 1px 0' : '1px 0 0 1px',
+                    ...(pos.y < 0
+                      ? { top: '-4px' }
+                      : { bottom: '-4px' }
+                    ),
                   }}
                 />
               </div>
             </a>
+            </div>
           );
         })}
       </div>

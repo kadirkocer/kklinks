@@ -135,34 +135,34 @@ export default function ProfileLinks() {
     let radius, iconSize, iconInnerSize, centerSize;
 
     if (minDimension < 400) {
-      // Mobile small - Video daha büyük, ikonlar daha küçük
-      centerSize = minDimension * 0.38;  // 0.28 → 0.38 (daha büyük video)
-      radius = minDimension * 0.32;      // 0.25 → 0.32 (daha geniş orbit)
-      iconSize = minDimension * 0.12;    // 0.08 → 0.12
-      iconInnerSize = iconSize * 0.60;   // 0.70 → 0.60 (ikon içi daha küçük)
+      // Mobile small
+      centerSize = minDimension * 0.36;
+      radius = minDimension * 0.32;
+      iconSize = minDimension * 0.14;
+      iconInnerSize = iconSize * 0.75;
     } else if (minDimension < 600) {
       // Mobile large
-      centerSize = minDimension * 0.35;  // 0.30 → 0.35
-      radius = minDimension * 0.30;      // 0.26 → 0.30
-      iconSize = minDimension * 0.11;    // 0.09 → 0.11
-      iconInnerSize = iconSize * 0.62;   // 0.72 → 0.62
+      centerSize = minDimension * 0.34;
+      radius = minDimension * 0.30;
+      iconSize = minDimension * 0.13;
+      iconInnerSize = iconSize * 0.75;
     } else if (minDimension < 900) {
       // Tablet
-      centerSize = minDimension * 0.28;  // 0.26 → 0.28
-      radius = minDimension * 0.26;      // 0.24 → 0.26
-      iconSize = minDimension * 0.10;    // 0.08 → 0.10
-      iconInnerSize = iconSize * 0.65;   // 0.75 → 0.65
+      centerSize = minDimension * 0.28;
+      radius = minDimension * 0.26;
+      iconSize = minDimension * 0.11;
+      iconInnerSize = iconSize * 0.75;
     } else {
       // Desktop
       centerSize = Math.min(200, minDimension * 0.20);
       radius = Math.min(140, minDimension * 0.18);
       iconSize = Math.min(56, minDimension * 0.06);
-      iconInnerSize = iconSize * 0.72;
+      iconInnerSize = iconSize * 0.75;
     }
 
-    // Minimum touch target - mobilde daha küçük tolerans
-    iconSize = Math.max(iconSize, 42);  // 48 → 42
-    iconInnerSize = Math.max(iconSize * 0.60, 28);  // 0.70, 36 → 0.60, 28
+    // Minimum sizes
+    iconSize = Math.max(iconSize, 44);
+    iconInnerSize = Math.max(iconInnerSize, 32);
 
     setDimensions({ radius, iconSize, iconInnerSize, centerSize });
   }, []);
@@ -182,16 +182,45 @@ export default function ProfileLinks() {
 
   // Force video autoplay on mobile
   useEffect(() => {
-    if (videoRef.current) {
-      const playVideo = async () => {
-        try {
-          await videoRef.current.play();
-        } catch (err) {
-          console.log('Autoplay prevented:', err);
-        }
-      };
-      playVideo();
-    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    const playVideo = async () => {
+      try {
+        video.muted = true;
+        await video.play();
+      } catch (err) {
+        // Fallback: try again on user interaction
+        const handleInteraction = async () => {
+          try {
+            await video.play();
+            document.removeEventListener('touchstart', handleInteraction);
+            document.removeEventListener('click', handleInteraction);
+          } catch (e) {}
+        };
+        document.addEventListener('touchstart', handleInteraction, { once: true });
+        document.addEventListener('click', handleInteraction, { once: true });
+      }
+    };
+
+    // Try multiple times
+    playVideo();
+    video.addEventListener('canplay', playVideo);
+    video.addEventListener('loadeddata', playVideo);
+
+    // Visibility change handler
+    const handleVisibility = () => {
+      if (!document.hidden && video.paused) {
+        playVideo();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      video.removeEventListener('canplay', playVideo);
+      video.removeEventListener('loadeddata', playVideo);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
   }, []);
 
   // Calculate position on circle - equal distribution
@@ -274,8 +303,15 @@ export default function ProfileLinks() {
               autoPlay
               playsInline
               webkit-playsinline="true"
+              x5-playsinline="true"
+              x5-video-player-type="h5"
               preload="auto"
+              disablePictureInPicture
+              controlsList="nodownload nofullscreen noremoteplayback"
               className="w-full h-full object-cover"
+              style={{ pointerEvents: 'none' }}
+              onLoadedData={(e) => e.target.play().catch(() => {})}
+              onCanPlay={(e) => e.target.play().catch(() => {})}
             />
 
             {/* Gradient overlay on hover */}

@@ -1,6 +1,6 @@
 # kklinks
 
-A modern, animated social links page for Kadir Köçer. Features a dynamic circular layout with floating social media icons orbiting around a video avatar.
+A modern, animated social links page for Kadir Koçer. Features a dynamic circular layout with floating social media icons orbiting around a video avatar.
 
 🔗 **Live Demo**: [kadirkocer.github.io/kklinks](https://kadirkocer.github.io/kklinks/)
 
@@ -73,4 +73,4 @@ kklinks/
 
 ## 📄 License
 
-MIT © [Kadir Köçer](https://kadirkocer.com)
+MIT © [Kadir Koçer](https://kadirkocer.com)

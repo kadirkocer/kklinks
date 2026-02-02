@@ -1,7 +1,7 @@
 {
-  "name": "Kadir Köçer - Social Links",
-  "short_name": "kklinks",
-  "description": "Connect with Kadir Köçer on social media platforms",
+  "name": "Kadir Koçer - Social Links",
+  "short_name": "KK Links",
+  "description": "Connect with Kadir Koçer on social media platforms",
   "start_url": "/kklinks/",
   "display": "standalone",
   "background_color": "#000000",

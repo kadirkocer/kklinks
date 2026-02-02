@@ -269,27 +269,6 @@ export default function ProfileLinks() {
               }}
             />
           </div>
-
-          {/* Copy notification */}
-          <div
-            className="absolute pointer-events-none transition-all duration-300"
-            style={{
-              bottom: '-60px',
-              left: '50%',
-              transform: `translateX(-50%) ${copied ? 'translateY(0)' : 'translateY(-10px)'}`,
-              opacity: copied ? 1 : 0,
-              background: 'rgba(255,255,255,0.95)',
-              color: '#000',
-              padding: '8px 16px',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '500',
-              whiteSpace: 'nowrap',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-            }}
-          >
-            PGP Key Copied!
-          </div>
         </div>
 
         {/* Social Links - Orbital Icons */}

@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy:cf": "wrangler pages deploy dist --project-name kklinks"
+    "deploy:cf": "npx wrangler pages deploy dist --project-name kklinks"
   },
   "dependencies": {
     "clsx": "^2.1.1",

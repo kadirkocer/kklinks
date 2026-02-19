@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kadirkocer.github.io/kklinks/sitemap.xml
+Sitemap: https://kadirkocer.com/sitemap.xml

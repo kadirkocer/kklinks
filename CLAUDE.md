@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**kklinks** is a modern, animated social links page featuring a dynamic circular layout with floating social media icons orbiting around a video avatar. Built as a single-page React application and deployed to GitHub Pages.
+**kklinks** is a modern, animated social links page featuring a dynamic circular layout with floating social media icons orbiting around a video avatar. Built as a single-page React application and deployed to Cloudflare Pages.
 
-Live demo: https://kadirkocer.github.io/kklinks/
+Live demo: https://kadirkocer.com/
 
 ## Development Commands
 
@@ -20,8 +20,8 @@ npm run build
 # Preview production build locally (port 4173)
 npm run preview
 
-# Deploy to GitHub Pages
-npm run deploy
+# Deploy-ready build for Cloudflare Pages
+npm run build
 ```
 
 ## Tech Stack
@@ -74,13 +74,13 @@ Custom animations include:
 
 ### Video Asset Handling
 
-The center avatar uses `public/video/kk.mp4` referenced via `import.meta.env.BASE_URL` to ensure correct path resolution when deployed to GitHub Pages subdirectory.
+The center avatar uses `public/video/kk.mp4` referenced via `import.meta.env.BASE_URL` to ensure correct path resolution when deployed behind a configurable base path.
 
 ## Build Configuration
 
 ### Vite Configuration (vite.config.ts)
 
-- **Base path**: `/kklinks/` for GitHub Pages deployment
+- **Base path**: `/` by default (can be overridden with `VITE_BASE_PATH`)
 - **Path alias**: `@` maps to `./src`
 - **Build optimizations**:
   - Drops console logs and debuggers in production
@@ -94,12 +94,12 @@ The center avatar uses `public/video/kk.mp4` referenced via `import.meta.env.BAS
 - Custom CSS variables for colors (`--border`, `--background`, etc.)
 - Scans `index.html` and all JS/JSX/TS/TSX files in `src/`
 
-## GitHub Pages Deployment
+## Cloudflare Pages Deployment
 
-The project is configured for GitHub Pages deployment:
-1. `npm run predeploy` automatically runs before deployment (builds the project)
-2. `npm run deploy` uses `gh-pages` package to publish `dist/` folder to `gh-pages` branch
-3. Base path `/kklinks/` matches the repository name
+The project is configured for Cloudflare Pages deployment:
+1. Build command: `npm run build`
+2. Build output directory: `dist`
+3. Base path defaults to `/`
 
 ## Responsive Design
 

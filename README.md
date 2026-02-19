@@ -2,7 +2,7 @@
 
 A modern, animated social links page for Kadir Koçer. Features a dynamic circular layout with floating social media icons orbiting around a video avatar.
 
-🔗 **Live Demo**: [kadirkocer.github.io/kklinks](https://kadirkocer.github.io/kklinks/)
+🔗 **Live Demo**: Cloudflare Pages üzerinden yayınlanacak
 
 ## ✨ Features
 
@@ -17,7 +17,7 @@ A modern, animated social links page for Kadir Koçer. Features a dynamic circul
 - **React 18** - UI framework
 - **Vite** - Build tool with HMR
 - **Tailwind CSS** - Styling
-- **GitHub Pages** - Deployment
+- **Cloudflare Pages** - Deployment
 
 ## 📦 Installation
 
@@ -42,7 +42,6 @@ npm run dev
 | `npm run dev` | Start development server |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build |
-| `npm run deploy` | Deploy to GitHub Pages |
 
 ## 📁 Project Structure
 

@@ -42,6 +42,7 @@ npm run dev
 | `npm run dev` | Start development server |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build |
+| `npm run deploy:cf` | Deploy `dist` to Cloudflare Pages via Wrangler |
 
 ## 📁 Project Structure
 
